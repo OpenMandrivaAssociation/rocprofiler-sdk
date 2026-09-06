@@ -19,6 +19,8 @@ BuildRequires:	cmake(rocprofiler-register)
 BuildRequires:	aqlprofile-devel
 BuildRequires:	pkgconfig(libdw)
 BuildRequires:	pkgconfig(libelf)
+BuildRequires:	pkgconfig(libdrm)
+BuildRequires:	cmake(rocm-core)
 BuildRequires:	cmake(fmt)
 BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:	pkgconfig(yaml-0.1)
