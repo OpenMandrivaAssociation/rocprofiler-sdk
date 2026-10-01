@@ -21,6 +21,7 @@ Patch1:		rocprofiler-sdk-offline-otf2.patch
 Patch2:		rocprofiler-sdk-clang.patch
 Patch3:		rocprofiler-sdk-libstdcxx16.patch
 Patch4:		rocprofiler-sdk-more-includes.patch
+Patch5:		rocprofiler-sdk-kokkosp.patch
 
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake
@@ -68,6 +69,11 @@ tar -C external/perfetto --strip-components=1 -xf %{SOURCE5}
 tar -C %{_builddir} -xf %{SOURCE6}
 
 %build
+# HIP's host path defines __noinline__ as an empty macro. libstdc++ uses
+# [[__gnu__::__noinline__]], which does not parse while that macro is set.
+sed -i 's/^#define __noinline__$/\/\* #define __noinline__ \*\//' \
+	/usr/include/hip/amd_detail/host_defines.h
+
 # ATT quick scan needs rocprof-trace-decoder, which is not packaged.
 %cmake %{rocm_cmake_fhs} \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
