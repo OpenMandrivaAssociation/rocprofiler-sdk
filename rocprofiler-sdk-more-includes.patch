@@ -1,0 +1,61 @@
+--- a/source/lib/rocprofiler-sdk/rocdecode/details/format.hpp
++++ b/source/lib/rocprofiler-sdk/rocdecode/details/format.hpp
+@@ -181,7 +181,7 @@
+     static_cast<void*>(v.ext_video_info),
+     '}')
+ 
+-ROCP_SDK_ROCDECODE_FORMATTER(RocdecTimeStamp, "{}RocdecTimeStamp={}{}", '{', v, '}')
++// RocdecTimeStamp is an integer typedef. fmt already formats it.
+ 
+ ROCP_SDK_ROCDECODE_FORMATTER(_RocdecSourceDataPacket,
+                              "{}flags={}, payload_size={}, payload={}, pts={}{}",
+--- a/source/lib/output/output_stream.cpp
++++ b/source/lib/output/output_stream.cpp
+@@ -20,6 +20,7 @@
+ // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ // SOFTWARE.
+ 
++#include <fstream>
+ #include "output_stream.hpp"
+ 
+ #include "lib/common/filesystem.hpp"
+--- a/source/lib/output/output_stream.hpp
++++ b/source/lib/output/output_stream.hpp
+@@ -22,6 +22,7 @@
+ 
+ #pragma once
+ 
++#include <fstream>
+ #include "lib/common/filesystem.hpp"
+ #include "output_config.hpp"
+ 
+--- a/source/lib/output/tmp_file.cpp
++++ b/source/lib/output/tmp_file.cpp
+@@ -20,6 +20,7 @@
+ // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ // SOFTWARE.
+ 
++#include <fstream>
+ #include "tmp_file.hpp"
+ 
+ #include "lib/common/filesystem.hpp"
+--- a/source/lib/rocprofiler-sdk-rocattach/auxv.cpp
++++ b/source/lib/rocprofiler-sdk-rocattach/auxv.cpp
+@@ -20,6 +20,7 @@
+ // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ // SOFTWARE.
+ 
++#include <fstream>
+ #include "lib/common/filesystem.hpp"
+ #include "lib/common/logging.hpp"
+ 
+--- a/source/lib/rocprofiler-sdk-rocpd/sql.cpp
++++ b/source/lib/rocprofiler-sdk-rocpd/sql.cpp
+@@ -22,6 +22,7 @@
+ 
+ #define _GNU_SOURCE 1
+ 
++#include <fstream>
+ #include "lib/common/environment.hpp"
+ #include "lib/common/filesystem.hpp"
+ #include "lib/common/logging.hpp"
