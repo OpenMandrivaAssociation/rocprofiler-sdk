@@ -1,0 +1,49 @@
+--- a/source/lib/common/logging.hpp
++++ b/source/lib/common/logging.hpp
+@@ -24,6 +24,11 @@
+ 
+ #include "lib/common/defines.hpp"
+ 
++// HIP host_defines.h defines __noinline__ as an empty macro. That
++// breaks libstdc++ attributes such as [[__gnu__::__noinline__]].
++#pragma push_macro("__noinline__")
++#undef __noinline__
++
+ #include <absl/log/check.h>
+ #include <absl/log/globals.h>
+ #include <absl/log/log.h>
+@@ -32,6 +37,8 @@
+ #include <fmt/format.h>  // usually used in conjunction with logging
+ #include <fmt/ranges.h>
+ 
++#pragma pop_macro("__noinline__")
++
+ #include <cstdint>
+ #include <optional>
+ #include <string>
+--- a/source/lib/rocprofiler-sdk/registration.cpp
++++ b/source/lib/rocprofiler-sdk/registration.cpp
+@@ -319,6 +319,23 @@
+ struct client_library
+ {
+     client_library() = default;
++    client_library(std::string                                 _name,
++                   void*                                       _dlhandle,
++                   decltype(::rocprofiler_configure)*          _configure_func,
++                   decltype(::rocprofiler_configure_attach)*   _configure_attach_func,
++                   rocprofiler_tool_configure_result_t*        _configure_result,
++                   rocprofiler_tool_configure_attach_result_t* _configure_attach_result,
++                   rocprofiler_client_id_t                     _internal_client_id,
++                   rocprofiler_client_id_t                     _mutable_client_id)
++    : name(std::move(_name))
++    , dlhandle(_dlhandle)
++    , configure_func(_configure_func)
++    , configure_attach_func(_configure_attach_func)
++    , configure_result(_configure_result)
++    , configure_attach_result(_configure_attach_result)
++    , internal_client_id(_internal_client_id)
++    , mutable_client_id(_mutable_client_id)
++    {}
+     ~client_library()
+     {
+         delete configure_result;

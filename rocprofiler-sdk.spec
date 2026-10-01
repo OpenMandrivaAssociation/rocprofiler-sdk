@@ -18,6 +18,7 @@ Source5:	perfetto-sdk-v44.0.tar.xz
 Source6:	otf2-3.0.3.tar.gz
 Patch0:		rocprofiler-sdk-system-json.patch
 Patch1:		rocprofiler-sdk-offline-otf2.patch
+Patch2:		rocprofiler-sdk-clang.patch
 
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake
