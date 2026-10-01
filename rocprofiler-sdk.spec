@@ -33,7 +33,7 @@ libroctx64). PyTorch Kineto and RCCL ROCTx look for this.
 %package devel
 Summary:	Development files for %{name}
 Group:		Development/C
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{EVRD}
 
 %description devel
 Headers and CMake package for rocprofiler-sdk.
