@@ -57,6 +57,8 @@ Headers and CMake package for rocprofiler-sdk.
 %autosetup -n rocprofiler-sdk -p1
 tar -C external/cereal --strip-components=1 -xf %{SOURCE1}
 tar -C external/elfio --strip-components=1 -xf %{SOURCE2}
+# ELFIO 3.12 uses uint16_t before including cstdint. Clang rejects that.
+sed -i '0,/^#ifdef __cplusplus$/s//#ifdef __cplusplus\n#include <cstdint>/' external/elfio/elfio/elf_types.hpp
 tar -C external/gotcha --strip-components=1 -xf %{SOURCE3}
 tar -C external/ptl --strip-components=1 -xf %{SOURCE4}
 tar -C external/perfetto --strip-components=1 -xf %{SOURCE5}
