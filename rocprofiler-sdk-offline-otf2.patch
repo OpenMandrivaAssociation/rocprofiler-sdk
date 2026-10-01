@@ -1,0 +1,21 @@
+--- a/external/otf2/CMakeLists.txt
++++ b/external/otf2/CMakeLists.txt
+@@ -33,12 +33,12 @@
+     message(FATAL_ERROR "Unsupported OTF2 version: ${OTF2_VERSION}")
+ endif()
+ 
+-fetchcontent_declare(
+-    otf2-source
+-    URL https://rocm-third-party-deps.s3.us-east-2.amazonaws.com/otf2-${OTF2_VERSION}.tar.gz
+-    URL_HASH ${OTF2_URL_HASH})
+-
+-fetchcontent_makeavailable(otf2-source)
++# The tarball is unpacked next to the source tree in %prep. Builders
++# have no network, so do not FetchContent the S3 URL.
++set(otf2-source_SOURCE_DIR "${CMAKE_SOURCE_DIR}/../otf2-${OTF2_VERSION}")
++if(NOT EXISTS "${otf2-source_SOURCE_DIR}/configure")
++    message(FATAL_ERROR "OTF2 sources missing at ${otf2-source_SOURCE_DIR}")
++endif()
+ 
+ set(_otf2_root ${ROCPROFILER_BINARY_DIR}/external/otf2)
+ set(_otf2_inc_dirs $<BUILD_INTERFACE:${_otf2_root}/include>)

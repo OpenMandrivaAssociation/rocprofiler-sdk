@@ -17,6 +17,7 @@ Source4:	PTL-rocprofiler.tar.gz
 Source5:	perfetto-sdk-v44.0.tar.xz
 Source6:	otf2-3.0.3.tar.gz
 Patch0:		rocprofiler-sdk-system-json.patch
+Patch1:		rocprofiler-sdk-offline-otf2.patch
 
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake
@@ -72,7 +73,6 @@ tar -C %{_builddir} -xf %{SOURCE6}
 	-DROCPROFILER_BUILD_ABSEIL=OFF \
 	-DROCPROFILER_BUILD_YAML_CPP=OFF \
 	-DROCPROFILER_BUILD_PYBIND11=OFF \
-	-DFETCHCONTENT_SOURCE_DIR_OTF2_SOURCE=%{_builddir}/otf2-3.0.3 \
 	-DROCM_PATH=%{_prefix} \
 	-DCMAKE_PREFIX_PATH=%{_prefix} \
 	-G Ninja
