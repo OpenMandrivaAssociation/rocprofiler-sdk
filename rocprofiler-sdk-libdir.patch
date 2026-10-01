@@ -1,0 +1,15 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -81,7 +81,11 @@
+                       ${CMAKE_MODULE_PATH})
+ 
+ include(GNUInstallDirs) # install directories
+-set(CMAKE_INSTALL_LIBDIR "lib") # rocm doesn't use lib64
++# Keep the libdir from the packaging cmake flags. The upstream default
++# is lib, which is wrong on lib64 distros.
++if(NOT CMAKE_INSTALL_LIBDIR)
++    set(CMAKE_INSTALL_LIBDIR "lib")
++endif()
+ set(CMAKE_BUILD_RPATH "${PROJECT_BINARY_DIR}/lib:\$ORIGIN:\$ORIGIN/../lib")
+ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH
+     OFF

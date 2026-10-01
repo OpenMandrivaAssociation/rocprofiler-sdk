@@ -22,6 +22,7 @@ Patch2:		rocprofiler-sdk-clang.patch
 Patch3:		rocprofiler-sdk-libstdcxx16.patch
 Patch4:		rocprofiler-sdk-more-includes.patch
 Patch5:		rocprofiler-sdk-kokkosp.patch
+Patch6:		rocprofiler-sdk-libdir.patch
 
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake
@@ -102,13 +103,21 @@ export CPLUS_INCLUDE_PATH="%{_builddir}/hip-host${CPLUS_INCLUDE_PATH:+:$CPLUS_IN
 %files
 %license LICENSE.md
 %doc README.md CHANGELOG.md
-%{_libdir}/librocprofiler-sdk.so.*
-%{_libdir}/librocprofiler-sdk-roctx.so.*
-%{_bindir}/rocprofv3
+%{_libdir}/librocprofiler-sdk*.so.*
 %{_libdir}/rocprofiler-sdk/
+%{_libdir}/python3/site-packages/rocprofv3/
+%{_bindir}/rocprof*
+%{_bindir}/rocpd*
+%{_libexecdir}/rocprofiler-sdk/
+%{_datadir}/rocprofiler-sdk/
+%{_datadir}/rocprofiler-sdk-*/
+%{_datadir}/modulefiles/rocprofiler-sdk/
+%{_datadir}/modulefiles/rocprofiler-sdk-*/
+%{_docdir}/rocprofiler-sdk-*/
 
 %files devel
 %{_includedir}/rocprofiler-sdk/
-%{_libdir}/librocprofiler-sdk.so
-%{_libdir}/librocprofiler-sdk-roctx.so
+%{_includedir}/rocprofiler-sdk-*/
+%{_libdir}/librocprofiler-sdk*.so
 %{_libdir}/cmake/rocprofiler-sdk/
+%{_libdir}/cmake/rocprofiler-sdk-*/
