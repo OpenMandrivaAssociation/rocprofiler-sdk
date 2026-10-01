@@ -63,7 +63,7 @@ tar -C external/perfetto --strip-components=1 -xf %{SOURCE5}
 tar -C %{_builddir} -xf %{SOURCE6}
 
 %build
-# OTF2 is fetched from S3 unless this directory is already populated.
+# ATT quick scan needs rocprof-trace-decoder, which is not packaged.
 %cmake %{rocm_cmake_fhs} \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DROCPROFILER_BUILD_TESTS=OFF \
@@ -75,6 +75,7 @@ tar -C %{_builddir} -xf %{SOURCE6}
 	-DROCPROFILER_BUILD_ABSEIL=OFF \
 	-DROCPROFILER_BUILD_YAML_CPP=OFF \
 	-DROCPROFILER_BUILD_PYBIND11=OFF \
+	-DROCPROFILER_DISABLE_ATT_QUICK_SCAN=ON \
 	-DROCM_PATH=%{_prefix} \
 	-DCMAKE_PREFIX_PATH=%{_prefix} \
 	-G Ninja
