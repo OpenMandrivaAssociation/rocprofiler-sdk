@@ -23,6 +23,7 @@ Patch3:		rocprofiler-sdk-libstdcxx16.patch
 Patch4:		rocprofiler-sdk-more-includes.patch
 Patch5:		rocprofiler-sdk-kokkosp.patch
 Patch6:		rocprofiler-sdk-libdir.patch
+Patch7:		rocprofiler-sdk-rpm-versions.patch
 
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake

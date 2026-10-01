@@ -1,0 +1,13 @@
+--- a/cmake/rocprofiler_config_install.cmake
++++ b/cmake/rocprofiler_config_install.cmake
+@@ -64,8 +64,9 @@
+ 
+ function(compute_rocprofiler_sdk_version _VAR)
+     string(REGEX REPLACE "([0-9]+)\\\.([0-9]+)\\\.(.*)" "\\1.\\2" _TMP "${${_VAR}}")
++    # RPM cannot parse the cmake "..." version range.
+     set(PACKAGE_${_VAR}
+-        "${_TMP}.0...${_TMP}.999999999999"
++        "${_TMP}.0"
+         PARENT_SCOPE)
+ endfunction()
+ 
