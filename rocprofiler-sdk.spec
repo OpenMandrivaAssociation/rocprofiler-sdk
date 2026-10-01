@@ -8,6 +8,15 @@ License:	MIT
 Group:		Development/Tools
 URL:		https://github.com/ROCm/rocm-systems
 Source0:	https://github.com/ROCm/rocm-systems/releases/download/therock-10.0/rocprofiler-sdk.tar.gz#/rocprofiler-sdk-%{version}.tar.gz
+# Empty git submodules in the release tarball. Unpacked in %%prep so
+# cmake does not try to clone them. Builders have no network.
+Source1:	cereal-rocprofiler.tar.gz
+Source2:	ELFIO-Release_3.12.tar.gz
+Source3:	GOTCHA-rocprofiler.tar.gz
+Source4:	PTL-rocprofiler.tar.gz
+Source5:	perfetto-sdk-v44.0.tar.xz
+Source6:	otf2-3.0.3.tar.gz
+Patch0:		rocprofiler-sdk-system-json.patch
 
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake
@@ -22,8 +31,11 @@ BuildRequires:	pkgconfig(libelf)
 BuildRequires:	pkgconfig(libdrm)
 BuildRequires:	cmake(rocm-core)
 BuildRequires:	cmake(fmt)
+BuildRequires:	cmake(absl)
+BuildRequires:	cmake(yaml-cpp)
+BuildRequires:	cmake(pybind11)
+BuildRequires:	cmake(nlohmann_json)
 BuildRequires:	pkgconfig(sqlite3)
-BuildRequires:	pkgconfig(yaml-0.1)
 
 %description
 rocprofiler-sdk provides rocprofv3, librocprofiler-sdk, and
@@ -40,8 +52,15 @@ Headers and CMake package for rocprofiler-sdk.
 
 %prep
 %autosetup -n rocprofiler-sdk -p1
+tar -C external/cereal --strip-components=1 -xf %{SOURCE1}
+tar -C external/elfio --strip-components=1 -xf %{SOURCE2}
+tar -C external/gotcha --strip-components=1 -xf %{SOURCE3}
+tar -C external/ptl --strip-components=1 -xf %{SOURCE4}
+tar -C external/perfetto --strip-components=1 -xf %{SOURCE5}
+tar -C %{_builddir} -xf %{SOURCE6}
 
 %build
+# OTF2 is fetched from S3 unless this directory is already populated.
 %cmake %{rocm_cmake_fhs} \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DROCPROFILER_BUILD_TESTS=OFF \
@@ -49,6 +68,11 @@ Headers and CMake package for rocprofiler-sdk.
 	-DROCPROFILER_BUILD_BENCHMARK=OFF \
 	-DROCPROFILER_BUILD_DOCS=OFF \
 	-DROCPROFILER_BUILD_FMT=OFF \
+	-DROCPROFILER_BUILD_GHC_FS=OFF \
+	-DROCPROFILER_BUILD_ABSEIL=OFF \
+	-DROCPROFILER_BUILD_YAML_CPP=OFF \
+	-DROCPROFILER_BUILD_PYBIND11=OFF \
+	-DFETCHCONTENT_SOURCE_DIR_OTF2_SOURCE=%{_builddir}/otf2-3.0.3 \
 	-DROCM_PATH=%{_prefix} \
 	-DCMAKE_PREFIX_PATH=%{_prefix} \
 	-G Ninja

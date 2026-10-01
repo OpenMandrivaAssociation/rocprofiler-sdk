@@ -1,0 +1,25 @@
+--- a/external/CMakeLists.txt
++++ b/external/CMakeLists.txt
+@@ -229,20 +229,8 @@
+ #
+ add_subdirectory(otf2)
+ 
+-rocprofiler_checkout_git_submodule(
+-    RECURSIVE
+-    RELATIVE_PATH external/json
+-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+-    REPO_URL https://github.com/nlohmann/json.git
+-    REPO_BRANCH "develop")
+-
+-#
+-# JSON
+-#
+-add_subdirectory(json)
+-target_include_directories(
+-    rocprofiler-sdk-json SYSTEM
+-    INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/external/json/include>)
++# nlohmann/json comes from the system package. Its headers are in the
++# default include path, so the interface target needs no submodule.
+ 
+ #
+ # SQLite3

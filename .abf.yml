@@ -1,2 +1,8 @@
 sources:
   rocprofiler-sdk-10.0.0.tar.gz: a1259ca5141f69c68794748534ef9ec6d049f6e0
+  cereal-rocprofiler.tar.gz: c76df2e852830744ac75796e87e611f2db35f1cb
+  ELFIO-Release_3.12.tar.gz: 128932ed111cc0e1c8f832c44a2b580ce1213df6
+  GOTCHA-rocprofiler.tar.gz: 63fcde08775fd95212536d5f3085b063bd438ccc
+  PTL-rocprofiler.tar.gz: 05899c260a228840423febaf74a79de3a219370e
+  perfetto-sdk-v44.0.tar.xz: 1c3318afb1e94965f150d3f7f4cbb945de14bc92
+  otf2-3.0.3.tar.gz: 826683db2929fe694e9fd4b2e45aed5df9447044
