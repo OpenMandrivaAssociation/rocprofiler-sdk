@@ -1,0 +1,68 @@
+--- a/source/lib/rocprofiler-sdk/intercept_table.cpp
++++ b/source/lib/rocprofiler-sdk/intercept_table.cpp
+@@ -50,7 +50,11 @@
+ namespace
+ {
+ template <rocprofiler_intercept_table_t... Idx>
+-using library_sequence_t = std::integer_sequence<rocprofiler_intercept_table_t, Idx...>;
++struct library_sequence_t
++{
++    // libstdc++ 16 requires std::integer_sequence to be an integral type.
++    static constexpr size_t size() noexcept { return sizeof...(Idx); }
++};
+ 
+ #define ROCPROFILER_INTERCEPT_TABLE_KIND_STRING(TABLE, NAME)                                       \
+     template <>                                                                                    \
+@@ -169,7 +173,7 @@
+                    uint64_t                      lib_version,
+                    uint64_t                      lib_instance,
+                    std::tuple<ApiTableT*...>     tables,
+-                   std::integer_sequence<rocprofiler_intercept_table_t, Idx...>)
++                   library_sequence_t<Idx...>)
+ {
+     auto execute = [lib, lib_version, lib_instance, tables](auto& notifier) {
+         if(((lib & notifier.value) == notifier.value))
+--- a/source/lib/rocprofiler-sdk/internal_threading.cpp
++++ b/source/lib/rocprofiler-sdk/internal_threading.cpp
+@@ -138,7 +138,10 @@
+ namespace
+ {
+ template <rocprofiler_runtime_library_t... Idx>
+-using library_sequence_t     = std::integer_sequence<rocprofiler_runtime_library_t, Idx...>;
++struct library_sequence_t
++{
++    static constexpr size_t size() noexcept { return sizeof...(Idx); }
++};
+ using creation_notifier_cb_t = void (*)(rocprofiler_runtime_library_t, void*);
+ 
+ // this is used to loop over the different libraries
+@@ -212,7 +215,7 @@
+ template <notifier_stage StageT, rocprofiler_runtime_library_t... Idx>
+ void
+ execute_creation_notifiers(rocprofiler_runtime_library_t libs,
+-                           std::integer_sequence<rocprofiler_runtime_library_t, Idx...>)
++                           library_sequence_t<Idx...>)
+ {
+     auto execute = [libs](auto& notifier) {
+         if(((libs & notifier.value) == notifier.value))
+--- a/source/lib/rocprofiler-sdk/counters/evaluate_ast.cpp
++++ b/source/lib/rocprofiler-sdk/counters/evaluate_ast.cpp
+@@ -102,7 +102,7 @@
+                                              .dispatch_id   = input_array->begin()->dispatch_id,
+                                              .user_data     = input_array->begin()->user_data,
+                                              .agent_id      = input_array->begin()->agent_id},
+-                [](auto& a, auto& b) {
++                [](auto a, const auto& b) {
+                     return rocprofiler_counter_record_t{
+                         .id            = a.id,
+                         .counter_value = a.counter_value + b.counter_value,
+--- a/source/lib/rocprofiler-sdk/counters/metrics.cpp
++++ b/source/lib/rocprofiler-sdk/counters/metrics.cpp
+@@ -21,6 +21,7 @@
+ // THE SOFTWARE.
+ 
+ #include "metrics.hpp"
++#include <fstream>
+ #include "id_decode.hpp"
+ 
+ #include "lib/common/environment.hpp"
