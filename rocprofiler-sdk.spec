@@ -71,8 +71,12 @@ tar -C %{_builddir} -xf %{SOURCE6}
 %build
 # HIP's host path defines __noinline__ as an empty macro. libstdc++ uses
 # [[__gnu__::__noinline__]], which does not parse while that macro is set.
-sed -i 's/^#define __noinline__$/\/\* #define __noinline__ \*\//' \
-	/usr/include/hip/amd_detail/host_defines.h
+# The build user cannot edit the system header, so shadow that one file.
+mkdir -p %{_builddir}/hip-host/hip/amd_detail
+sed 's/^#define __noinline__$/\/\* #define __noinline__ \*\//' \
+	/usr/include/hip/amd_detail/host_defines.h \
+	> %{_builddir}/hip-host/hip/amd_detail/host_defines.h
+export CPLUS_INCLUDE_PATH="%{_builddir}/hip-host${CPLUS_INCLUDE_PATH:+:$CPLUS_INCLUDE_PATH}"
 
 # ATT quick scan needs rocprof-trace-decoder, which is not packaged.
 %cmake %{rocm_cmake_fhs} \
