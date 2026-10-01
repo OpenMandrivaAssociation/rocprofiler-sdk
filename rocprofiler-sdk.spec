@@ -22,6 +22,8 @@ Patch1:		rocprofiler-sdk-offline-otf2.patch
 BuildRequires:	rocm-rpm-macros
 BuildRequires:	cmake
 BuildRequires:	ninja
+# OTF2 is autotools and is driven by ExternalProject, which calls make.
+BuildRequires:	make
 BuildRequires:	hipcc
 BuildRequires:	rocm-hip-devel
 BuildRequires:	rocm-runtime-devel
