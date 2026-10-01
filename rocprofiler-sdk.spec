@@ -104,6 +104,7 @@ export CPLUS_INCLUDE_PATH="%{_builddir}/hip-host${CPLUS_INCLUDE_PATH:+:$CPLUS_IN
 %files
 %license LICENSE.md
 %doc README.md CHANGELOG.md
+%{_docdir}/%{name}/LICENSE.md
 %{_libdir}/librocprofiler-sdk*.so.*
 %{_libdir}/rocprofiler-sdk/
 %{_libdir}/python3/site-packages/rocprofv3/
