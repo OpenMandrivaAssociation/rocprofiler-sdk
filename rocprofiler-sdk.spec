@@ -1,13 +1,13 @@
-# Modern ROCm profiler SDK (includes ROCTx). TheRock 10.0.
+# Modern ROCm profiler SDK (includes ROCTx). TheRock 10.1.
 
 Name:		rocprofiler-sdk
-Version:	10.0.0
+Version:	10.1.0
 Release:	1
 Summary:	ROCm performance analysis SDK
 License:	MIT
 Group:		Development/Tools
 URL:		https://github.com/ROCm/rocm-systems
-Source0:	https://github.com/ROCm/rocm-systems/releases/download/therock-10.0/rocprofiler-sdk.tar.gz#/rocprofiler-sdk-%{version}.tar.gz
+Source0:	https://github.com/ROCm/rocm-systems/releases/download/therock-10.1/rocprofiler-sdk.tar.gz#/rocprofiler-sdk-%{version}.tar.gz
 # Empty git submodules in the release tarball. Unpacked in %%prep so
 # cmake does not try to clone them. Builders have no network.
 Source1:	cereal-rocprofiler.tar.gz
@@ -16,7 +16,7 @@ Source3:	GOTCHA-rocprofiler.tar.gz
 Source4:	PTL-rocprofiler.tar.gz
 Source5:	perfetto-sdk-v44.0.tar.xz
 Source6:	otf2-3.0.3.tar.gz
-Patch0:		rocprofiler-sdk-system-json.patch
+# nlohmann/json is the system package (-DROCPROFILER_BUILD_JSON=OFF).
 Patch1:		rocprofiler-sdk-offline-otf2.patch
 Patch2:		rocprofiler-sdk-clang.patch
 Patch3:		rocprofiler-sdk-libstdcxx16.patch
@@ -92,6 +92,7 @@ export CPLUS_INCLUDE_PATH="%{_builddir}/hip-host${CPLUS_INCLUDE_PATH:+:$CPLUS_IN
 	-DROCPROFILER_BUILD_ABSEIL=OFF \
 	-DROCPROFILER_BUILD_YAML_CPP=OFF \
 	-DROCPROFILER_BUILD_PYBIND11=OFF \
+	-DROCPROFILER_BUILD_JSON=OFF \
 	-DROCPROFILER_DISABLE_ATT_QUICK_SCAN=ON \
 	-DROCM_PATH=%{_prefix} \
 	-DCMAKE_PREFIX_PATH=%{_prefix} \
