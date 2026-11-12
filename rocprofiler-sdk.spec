@@ -2,7 +2,7 @@
 
 Name:		rocprofiler-sdk
 Version:	10.1.0
-Release:	1
+Release:	2
 Summary:	ROCm performance analysis SDK
 License:	MIT
 Group:		Development/Tools
