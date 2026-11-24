@@ -5,4 +5,4 @@ sources:
   PTL-rocprofiler.tar.gz: 05899c260a228840423febaf74a79de3a219370e
   perfetto-sdk-v44.0.tar.xz: 1c3318afb1e94965f150d3f7f4cbb945de14bc92
   otf2-3.0.3.tar.gz: 826683db2929fe694e9fd4b2e45aed5df9447044
-  rocprofiler-sdk-10.1.0.tar.gz: 6feeeea9cddb33955bf544da1f1d415fbfe3ce70
+  rocprofiler-sdk-10.2.0.tar.gz: 85fea6bb282238edfca64b5ad2f411475f7b46b8

@@ -1,13 +1,13 @@
-# Modern ROCm profiler SDK (includes ROCTx). TheRock 10.1.
+# Modern ROCm profiler SDK (includes ROCTx). TheRock 10.2.
 
 Name:		rocprofiler-sdk
-Version:	10.1.0
-Release:	3
+Version:	10.2.0
+Release:	1
 Summary:	ROCm performance analysis SDK
 License:	MIT
 Group:		Development/Tools
 URL:		https://github.com/ROCm/rocm-systems
-Source0:	https://github.com/ROCm/rocm-systems/releases/download/therock-10.1/rocprofiler-sdk.tar.gz#/rocprofiler-sdk-%{version}.tar.gz
+Source0:	https://github.com/ROCm/rocm-systems/releases/download/therock-10.2/rocprofiler-sdk.tar.gz#/rocprofiler-sdk-%{version}.tar.gz
 # Empty git submodules in the release tarball. Unpacked in %%prep so
 # cmake does not try to clone them. Builders have no network.
 Source1:	cereal-rocprofiler.tar.gz
