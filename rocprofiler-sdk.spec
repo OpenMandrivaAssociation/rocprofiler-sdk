@@ -16,6 +16,8 @@ Source3:	GOTCHA-rocprofiler.tar.gz
 Source4:	PTL-rocprofiler.tar.gz
 Source5:	perfetto-sdk-v44.0.tar.xz
 Source6:	otf2-3.0.3.tar.gz
+# Shared SHA-256. Not inside the sdk tarball; 10.2 add_subdirectory()s it.
+Source7:	https://github.com/ROCm/rocm-systems/releases/download/therock-10.2/sha256.tar.gz#/sha256-%{version}.tar.gz
 # nlohmann/json is the system package (-DROCPROFILER_BUILD_JSON=OFF).
 Patch1:		rocprofiler-sdk-offline-otf2.patch
 Patch2:		rocprofiler-sdk-clang.patch
@@ -69,6 +71,9 @@ tar -C external/gotcha --strip-components=1 -xf %{SOURCE3}
 tar -C external/ptl --strip-components=1 -xf %{SOURCE4}
 tar -C external/perfetto --strip-components=1 -xf %{SOURCE5}
 tar -C %{_builddir} -xf %{SOURCE6}
+# sha256.tar.gz extracts as sha256/. The sdk looks for ../../shared/sha256.
+tar -C %{_builddir} -xf %{SOURCE7}
+test -f %{_builddir}/sha256/CMakeLists.txt
 
 %build
 # HIP's host path defines __noinline__ as an empty macro. libstdc++ uses
@@ -94,6 +99,7 @@ export CPLUS_INCLUDE_PATH="%{_builddir}/hip-host${CPLUS_INCLUDE_PATH:+:$CPLUS_IN
 	-DROCPROFILER_BUILD_PYBIND11=OFF \
 	-DROCPROFILER_BUILD_JSON=OFF \
 	-DROCPROFILER_DISABLE_ATT_QUICK_SCAN=ON \
+	-DROCPROFILER_SDK_ROCM_SHA256_DIR=%{_builddir}/sha256 \
 	-DROCM_PATH=%{_prefix} \
 	-DCMAKE_PREFIX_PATH=%{_prefix} \
 	-G Ninja
